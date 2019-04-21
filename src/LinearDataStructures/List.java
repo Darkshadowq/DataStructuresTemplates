@@ -1,6 +1,8 @@
 package LinearDataStructures;
 import java.io.*;
 
+import javax.xml.soap.Node;
+
 /*
 # Lists based on Pointers.
 #
@@ -59,10 +61,11 @@ public class List {
 	 * 
 	 * @param newNode
 	 */
-	public void insertAtBegin(Node newNode)
+	public void insertAtBegin (Node newNode)
 	{
 		newNode.setNext(head);
 		head = newNode;
+	
 	}
 	
 	
@@ -72,6 +75,12 @@ public class List {
 	 */
 	public void insertAtEnd(Node newNode)
 	{
+		Node temp = head;
+		Node newNode;
+		while(temp != null) {
+			temp=temp.getNext();
+		}
+		newNode=temp.getNext();
 		
 	}
 	
@@ -83,7 +92,16 @@ public class List {
 	 */
 	public void insertAtIndex(Node newNode, int index)
 	{
+		Node temp = head;
+		Node newNode;
 		
+		for(int i = 0; i < index ; i++)
+			temp = temp.getNext();
+		
+		newNode = temp.getNext(); 
+		for (int i = 0; i < index-1; i++) 
+		     temp.setNext(newNode);
+		 
 	}
 	
 	
@@ -100,10 +118,19 @@ public class List {
 	
 	
 	/**
-	 * 
+	 * this method is used to eliminate a node at the end of the list
 	 */
 	public void deleteAtEnd()
 	{
+		Node temp = head;
+		Node previous=temp;
+		while(temp.getNext() != null) {
+            previous = temp;
+			temp=temp.getNext();
+		}
+		temp=null;
+		previous.setNext(null);
+		System.gc();
 	}
 	
 	
@@ -233,9 +260,27 @@ public class List {
 	 * @param node
 	 * @return
 	 */
-	public Node binarySearch(Node node)
+	public int binarySearch(Node node)
 	{
-		return null;
+		int lowerBound=0, upperBound=this.get.length()-1;
+		int middle=0, index=-1;
+		
+		while(upperBound>lowerBound)
+		{
+			middle=(lowerBound + upperBound)/2;
+			if(get(middle).isEqual(node))
+			{
+				index = middle;
+				break;
+			}
+			else 
+				if(get(middle).isLessThan(node))
+					lowerBound=middle+1;
+				else
+					upperBound=middle-1;
+ 		}
+		
+		return index;
 	}
 	
 	
@@ -326,11 +371,23 @@ public class List {
 	 */
 	public List sublist(int begin, int end)
 	{
-		List subList = new List();
+       List subList = new List();
+		
+		if(begin < this.length() && end< this.length() && begin < end)
+		{
+			Node temp = head;
+			
+			for(int i = 0; i < (end - begin); i++)
+				temp = temp.getNext();
+			
+			while(temp != null)
+			{
+				subList.insertAtEnd(temp.clone());
+				temp = temp.getNext();
+			}
+		}
 		
 		return subList;
-	}
-	
 	
 	/**
 	 * 
@@ -338,7 +395,14 @@ public class List {
 	 */
 	public int length()
 	{
-		return -1;
+	    int counter=0;
+	    Node temp=head;
+	    while (temp!=null) {
+	    	counter += 1;
+	    	temp=temp.getNext();
+	    }
+
+		return counter;
 	}
 	
 	
@@ -348,7 +412,14 @@ public class List {
 	 */
 	public List cloneList()
 	{
-		return null;
+		list newList =new List();
+		Node temp =head;
+		while(temp!=null)
+		{
+			newList.insertAtEnd(temp.cloneNode());
+			temp=temp.getNext();
+		}
+		return newList;
 	}
 	
 	
@@ -386,6 +457,17 @@ public class List {
 	 */
 	public Node get(int index)
 	{
+	    Node result=null;
+	    
+		if (index<this.length())
+		{
+			Node temp=head;
+			
+			for (int i = 0; i < index; i++)
+				temp=temp.getNext();
+				
+			result = temp.cloneNode();
+		}
 		return null;
 	}
 	

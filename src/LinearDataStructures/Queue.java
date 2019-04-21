@@ -38,7 +38,12 @@ public class Queue {
 	 */
 	public void enqueue(Node newNode)
 	{
-		
+		Node temp = head;
+		if(!this.isEmpty())
+		    while(temp != null) 
+			     temp=temp.getNext();
+	}
+		newNode=temp.getNext();
 	}
 	
 	
@@ -48,6 +53,10 @@ public class Queue {
 	 */
 	public Node dequeue()
 	{
-		return null;
+		Node temp = head;
+		head = temp.getNext();
+		temp.setNext(null);
+		
+		return temp
 	}
 }
